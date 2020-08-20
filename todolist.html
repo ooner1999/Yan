@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<head>
+<title>yanyanzzi's todo list</title>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800');
+	ul{
+		list-style: none;
+		padding:0;
+		margin:0;
+		background : #eee;
+		border : 1px solid #ccc;
+		width: 800px;
+		}
+		
+	.checked{
+		text-decoration: line-through;
+		text-color : black;
+	}
+	
+	.searched{
+		text-color : red;
+		text-decoration: line-through;
+	}
+	
+	body
+	{
+		font-family : 'Nanum Gothic';
+	}
+</style>
+
+
+</head>
+<body>
+	<center>
+	<h1>[ TO DO LIST ]</h1>
+	얀얀의 To do List 입니다! :3<br>
+	+버튼 클릭 시 추가되고, 텍스트 클릭 시 수정됩니다.<br>
+	<hr>
+	
+	<p>
+	<input type = "text" id = "InputList"/>
+	<button id = 'add'>+</button>
+	<input onkeyup="search()" type="text" id="searchBox" placeholder="검색">
+	</p>
+	<ul id = "todolist">
+	</ul>
+	</center>
+</body>
+
+<script>
+
+	function mod()
+	{
+		var newText = prompt(this.innerText+"에서 수정하실 내용을 입력하세요");
+		if(!newText || newText == "" || newText == " ")
+		{
+			return false;
+		}
+
+		this.innerText = newText;
+	}
+
+	var total = 0;//list의 개수
+	
+	function update()
+	{
+		 var chId = this.id.replace('cb', "");
+		 var text = document.getElementById('span' + chId);
+		 var temp = text;
+		 
+		 if(this.checked)
+		 {
+			text.style.color = "grey";
+		 }
+		 
+		else
+		{
+			text.style.color = "black";
+		}
+		
+			
+	}
+	
+	function search()
+	{
+		var value, name, itme, i;
+		
+		value = document.getElementById("searchBox").value;
+		item = document.getElementsByClassName("name");
+		
+		for(i=0; i<total; i++)
+			item[i] = '';
+		
+		for(i=0; i<total; i++)
+		{
+			console.log(item[i].innerHTML);
+			console.log('value = ' + value);
+			if(value == item[i].innerHTML)
+			{
+				item[i].style.color = "red";
+			}
+			
+			else
+			{
+				item[i].style.color = "black";
+			}
+	
+		}
+
+	}
+
+
+	function addNewList(list, text)
+	{
+		total++;
+		
+		var listItem = document.createElement("li");//li 태그 생성
+		var checkBox = document.createElement("input");//input 태그 생성
+		
+		
+		checkBox.type = 'checkbox';
+		checkBox.onclick = update;
+		checkBox.id = 'cb' + total;//넘버링
+		
+		var span = document.createElement("span");
+		span.id = 'span' + total;//넘버링
+		span.innerText = text;
+		span.className = "name";
+		span.onclick = mod;
+		
+		list.appendChild(checkBox);
+		list.appendChild(span);
+		list.appendChild(listItem);
+		
+	};
+	
+	
+
+
+	var createbtn = document.getElementById('add');
+	
+	
+	createbtn.onclick = function(){
+		var text = document.getElementById("InputList");
+		var listText = text.value;
+		
+		if(!listText || listText == "" || listText == " ")
+		{	
+			return false;
+		}
+	
+	addNewList(document.getElementById("todolist"), listText);
+			
+	};
+	
+	
+
+	
+</script>
